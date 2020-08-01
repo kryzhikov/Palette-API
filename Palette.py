@@ -3,8 +3,8 @@ import numpy as np
 from sklearn.cluster import KMeans
 from  PIL import Image
 import os
-import json
-from scipy.cluster.vq import kmeans,vq
+
+from scipy import spatial
 from matplotlib import pyplot as plt
 def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
     dim = None
@@ -90,6 +90,8 @@ class palettedImage(object):
         # return the bar chart
         return bar
 
+
+
     @staticmethod
     def centroid_histogram(clt):
         # grab the number of different clusters and create a histogram
@@ -121,7 +123,16 @@ class palettedImage(object):
         hist = self.centroid_histogram(clt)
         self.centroids = clt.cluster_centers_
         self.hist = hist
-        self.outData = sorted(list(zip(self.centroids, self.hist)), key = lambda x: x[1])
+        self.centers = []
+        pinformed = np.array([[pixelImage[i], clt.labels_[i], i] for i in range(pixelImage.shape[0])])
+        for i in range(0,len(np.unique(clt.labels_))):
+            val = sorted(pinformed[np.where(clt.labels_ == i)], key = lambda x: spatial.distance.euclidean(x[0], self.centroids[i]))[0]
+            # print(self.centroids[i], val[2] // 400, val[2] % 400)
+            # print(val)
+            # print(val[2] // 400, val[2] % 400)
+            self.centers.append([ val[2] % 400,val[2] // 400])
+
+        self.outData = sorted(list(zip(self.centroids, self.hist, self.centers)), key = lambda x: x[1])
         if regime == 0:
             print("Using relative palette colors scaling")
             self.bar = self.plot_colors_rel(hist, clt.cluster_centers_, self.colorOffset)
@@ -156,7 +167,7 @@ class palettedImage(object):
             return self.outImgPath
     @staticmethod
     def create_data_dict(data):
-        d = [(i[0][0], i[0][1], i[0][2]) for i in data]
+        d = [{'r' : i[0][0], 'g' : i[0][1], 'b' : i[0][2], 'x' : i[2][0], 'y':i[2][1]} for i in (data)]
         return d
     def get_params(self):
         return self.create_data_dict(self.outData)

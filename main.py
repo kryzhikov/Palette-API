@@ -28,7 +28,7 @@ async def prediction_route(file: UploadFile = File(...)):
       pil_image = pil_image.convert('RGB')
     pim = palettedImage(pil_image,file.filename)
     pim.palettize()
-    pim.save_paletted()
+    #pim.save_paletted()
     data = pim.get_params()
     return {
       'filename'   : file.filename,
