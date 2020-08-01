@@ -13,7 +13,7 @@ app = FastAPI()
 
 @app.get('/')
 def root_route():
-  return { 'error': 'Use GET /prediction instead of the root route!' }
+  return { 'error': 'Use POST /prediction instead of the root route!' }
 
 @app.post('/prediction/', response_model=Prediction)
 async def prediction_route(file: UploadFile = File(...)):
