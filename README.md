@@ -1,3 +1,4 @@
 # Palette-API
-![Orig](hall.jpg)
-![Paletted](paletted_hall.jpg)
+![Orig](90.jpg)
+![Paletted](paletted_test.jpg)
+![Colors picked](test.jpg)
