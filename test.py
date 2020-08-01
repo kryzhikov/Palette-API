@@ -1,7 +1,7 @@
 from Palette import palettedImage
 import numpy as np
 from model import Prediction
-pim = palettedImage("hall.jpg")
+pim = palettedImage("90.jpg")
 pim.palettize()
 pim.save_paletted()
 data = pim.get_params()
