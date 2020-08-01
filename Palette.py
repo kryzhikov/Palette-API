@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from sklearn.cluster import KMeans
-from  PIL import Image
+from  PIL import Image, ImageDraw
 import os
 
 from scipy import spatial
@@ -71,14 +71,9 @@ class palettedImage(object):
         rez = []
         rez.extend(prs[:(len(centroids)-offset)//2])
         rez.extend(prs[(len(centroids) - offset)// 2:])
-        # loop over the percentage of each cluster and the color of
-        # each cluster
+
         for (percent, color) in rez:
-            # plot the relative percentage of each cluster
-            # endX = startX + (percent * 300)
-            # Instead of plotting the relative percentage,
-            # we will make a n=clusters number of color rectangles
-            # we will also seperate them by a margin
+
             new_length = 300 - margin * (clusters - 1)
             endX = startX + new_length / clusters
             cv2.rectangle(bar, (int(startX), 0), (int(endX), 50),
@@ -114,7 +109,7 @@ class palettedImage(object):
             image = np.array(self.imgSource)
             image = image.copy()
         image_copy = image_resize(image, width=400)
-        self.image = image_copy
+        self.image = image
         pixelImage = image_copy.reshape(
             (image_copy.shape[0] * image_copy.shape[1], 3))
         self.pixelImage = pixelImage
@@ -130,7 +125,7 @@ class palettedImage(object):
             # print(self.centroids[i], val[2] // 400, val[2] % 400)
             # print(val)
             # print(val[2] // 400, val[2] % 400)
-            self.centers.append([ val[2] % 400,val[2] // 400])
+            self.centers.append([ int(val[2] % 400 / image_copy.shape[1] * image.shape[1]) ,int(val[2] // 400 / image_copy.shape[0] * image.shape[0])])
 
         self.outData = sorted(list(zip(self.centroids, self.hist, self.centers)), key = lambda x: x[1])
         if regime == 0:
@@ -167,10 +162,19 @@ class palettedImage(object):
             return self.outImgPath
     @staticmethod
     def create_data_dict(data):
-        d = [{'r' : i[0][0], 'g' : i[0][1], 'b' : i[0][2], 'x' : i[2][0], 'y':i[2][1]} for i in (data)]
+        d = [{'r' : int(i[0][0]), 'g' : int(i[0][1]), 'b' : int(i[0][2]),
+              'x' : i[2][0], 'y':i[2][1]} for i in (data)]
         return d
     def get_params(self):
         return self.create_data_dict(self.outData)
 
-
-
+    def draw_points(self):
+        data = self.get_params()
+        image = Image.fromarray(self.image)
+        draw = ImageDraw.Draw(image)
+        for i in range(5):
+            x = data[i]['x']
+            y = data[i]['y']
+            r = 50
+            draw.ellipse((x-r, y-r, x+r, y+r), (data[i]['r'],data[i]['g'],data[i]['b']), outline='white', width=5)
+        image.save("test.jpg")
