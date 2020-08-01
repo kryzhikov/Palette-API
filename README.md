@@ -1,3 +1,3 @@
 # Palette-API
-![hall.jpg]
-![paletted_hall.jpg]
+![Orig](hall.jpg)
+![Paletted](paletted_hall.jpg)
