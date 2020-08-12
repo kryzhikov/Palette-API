@@ -1,0 +1,8 @@
+[QUERY] 2020-08-09 09:55:35,164 -  game.jpg - teext - OK
+[QUERY] 2020-08-09 09:56:32,905 -  game.jpg - teext - OK
+[QUERY] 2020-08-09 18:22:15,549 -  game.jpg - teext - OK
+[QUERY] 2020-08-09 18:23:09,523 -  game.jpg - teext - OK
+[QUERY] 2020-08-09 18:23:58,850 -  None - teext - ERROR: __init__() got an unexpected keyword argument 'offset'
+[QUERY] 2020-08-09 18:24:23,026 -  game.jpg - teext - OK
+[QUERY] 2020-08-09 18:24:57,631 -  game.jpg - teext - OK
+[QUERY] 2020-08-09 18:36:30,586 -  game.jpg - teext - OK

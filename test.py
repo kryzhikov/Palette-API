@@ -1,9 +1,12 @@
 from Palette import palettedImage
 import numpy as np
 from model import Prediction
-pim = palettedImage("90.jpg")
+import time
+start  = time.time()
+pim = palettedImage("serb.jpeg", clusters=6, colorOffset=3)
 pim.palettize()
 pim.save_paletted()
 data = pim.get_params()
+print(time.time() - start)
 pim.draw_points()
-print(Prediction(prediction = data, filename = "1", contenttype = "123").prediction)
+pim.save_quantized()

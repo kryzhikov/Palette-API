@@ -41,7 +41,7 @@ async def prediction_route(file: UploadFile = File(...), srv : str = Form(...)):
     pil_image = Image.open(io.BytesIO(contents))
     if pil_image.mode == 'RGBA':
       pil_image = pil_image.convert('RGB')
-    pim = palettedImage(pil_image,file.filename)
+    pim = palettedImage(pil_image,file.filename,clusters=6, colorOffset=3)
     pim.palettize()
     #pim.save_paletted()
     data = pim.get_params()
