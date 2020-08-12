@@ -3,7 +3,7 @@ import numpy as np
 from model import Prediction
 import time
 start  = time.time()
-pim = palettedImage("serb.jpeg", clusters=6, colorOffset=3)
+pim = palettedImage("90.jpg", clusters=6, colorOffset=3)
 pim.palettize()
 pim.save_paletted()
 data = pim.get_params()
